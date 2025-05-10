@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "rick-bot"
+version = "0.1.0"
+description = ""
+authors = ["gustavop1903 <gustavogp1903@hotmail.com>"]
+readme = "README.md"
+packages = [{include = "rick_bot", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.12"
+uvicorn = "^0.34.2"
+python-dotenv = "^1.1.0"
+botbuilder-core = "^4.16.2"
+botbuilder-integration-aiohttp = "^4.16.2"
+openai = "^1.78.0"
+langchain = "^0.3.25"
+tiktoken = "^0.9.0"
+pytesseract = "^0.3.13"
+pdfplumber = "^0.11.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
