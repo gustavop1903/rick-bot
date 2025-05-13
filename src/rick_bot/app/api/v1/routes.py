@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from src.rick_bot.domain.schemas.request import QuestionRequest
-from src.rick_bot.app.controllers.ask_controller import handle_ask
+from src.rick_bot.app.controllers.ask_controller import ask_question
 
 router = APIRouter()
 
@@ -10,5 +10,5 @@ def root():
 
 @router.post("/ask")
 def ask_question(payload: QuestionRequest):
-    answer = handle_ask(payload)
+    answer = ask_question(payload)
     return {"answer": answer}
