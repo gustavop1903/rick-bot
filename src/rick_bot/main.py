@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
-from .routes.routes import router
+from .app.api.v1.routes import router
 from config.db.session import SessionLocal, engine
 from app.domain.models import models
 

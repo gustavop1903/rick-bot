@@ -1,11 +1,12 @@
-from sqlalchemy import Column, Integer, EmailType, String
-from sqlalchemy.dialects.postgresql import UUID
-from config.db.session import Base
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+from .base import Base
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(UUID, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True, nullable=False)
-    email = Column(EmailType, unique=True, index=True, nullable=False)
-    hashed_password = Column(String, nullable=False)
+    username = Column(String(50), unique=True, nullable=False)
+    email = Column(String(100), unique=True, nullable=False)
+    password_hash = Column(String(128), nullable=False)
+
+    agents = relationship("Agent", back_populates="creator")

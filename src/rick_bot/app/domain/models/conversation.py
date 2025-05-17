@@ -1,15 +1,16 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime
+from uuid import UUID
+from sqlalchemy import Column, Integer, ForeignKey, DateTime, Text, String
 from sqlalchemy.orm import relationship
-from datetime import datetime
-from config.db.session import Base
+from sqlalchemy.sql import func
+
+from .base import Base
 
 class Conversation(Base):
     __tablename__ = "conversations"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    session_id = Column(String, index=True)
-    conversation = Column(Text)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    session_id = Column(String(255), nullable=False) 
+    content = Column(Text, nullable=False)
+    timestamp = Column(DateTime(timezone=True), server_default=func.now())
 
-    user = relationship("User", backref="conversations")
+    agent_id = Column(UUID(as_uuid=True), ForeignKey("agents.id"), nullable=False)
+    agent = relationship("Agent", back_populates="conversations")

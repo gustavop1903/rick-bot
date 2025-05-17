@@ -1,14 +1,12 @@
-FROM python:3.11
+FROM python:3.12
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock ./
+COPY . .
 
 RUN pip install poetry
 
-RUN poetryc config virtualenvs.create false && \
+RUN poetry config virtualenvs.create false && \
     poetry install --no-interaction --no-ansi
-
-COPY . .
 
 EXPOSE 7002
 CMD ["python", "run.py"]
