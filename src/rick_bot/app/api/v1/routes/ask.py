@@ -11,30 +11,14 @@ from app.core.security import get_current_user
 router = APIRouter(prefix="/users", tags=["Users"])
 
 @router.post("/ask", response_model=AgentAskResponse)
-def ask(
-    body: GenericAskRequest,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
-    service = AgentService(db)
-    return service.orchestrate(body, user=current_user)
+def ask_generic(body: GenericAskRequest, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    return AskService(db).handle(question=body.question, user=user)
 
 @router.post("/ask/{agent_id}", response_model=AgentAskResponse)
-def ask_specific_agent(
-    agent_id: UUID,
-    body: DirectAskRequest,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
-    service = AgentService(db)
-    return service.ask_specific_agent(agent_id, body, user=current_user)
+def ask_specific(agent_id: str, body: DirectAskRequest, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    return AskService(db).handle(question=body.question, user=user, agent_id=agent_id)
 
-@router.post("/ask/teams", response_model=AgentAskResponse)
-def ask_by_teams(
-    body: GenericAskRequest,
-    db: Session = Depends(get_db),
-    auth_header: str = Header(None)
-):
-    service = AgentService(db)
-    integration = AppIntegrationService(db).validate_integration(auth_header)
-    return service.orchestrate(body, integration=integration)
+@router.post("/ask/team", response_model=AgentAskResponse)
+def ask_team(body: GenericAskRequest, db: Session = Depends(get_db), request: Request = None):
+    integration = AppIntegrationService(db).validate_teams_request(request)
+    return AskService(db).handle(question=body.question, integration=integration)
