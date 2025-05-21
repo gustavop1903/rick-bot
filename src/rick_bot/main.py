@@ -1,9 +1,11 @@
 
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
-from .app.api.v1.routes import router
-from config.db.session import SessionLocal, engine
-from app.domain.models import models
+
+from rick_bot.app.api.v1.routes import agent, auth, ask, user
+from rick_bot.app.config.db import SessionLocal, engine
+from rick_bot.app.api.v1.domain.models import models
+
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -17,4 +19,4 @@ def get_db():
   finally:
     db.close()
 
-app.include_router(router, prefix="/api/v1")
+app.include_router(agent_router, prefix="/api/v1")

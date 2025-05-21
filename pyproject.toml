@@ -18,6 +18,9 @@ tiktoken = "^0.9.0"
 pytesseract = "^0.3.13"
 pdfplumber = "^0.11.6"
 sqlalchemy = "^2.0.41"
+pydantic = {extras = ["email"], version = "^2.11.4"}
+passlib = "^1.7.4"
+python-jose = "^3.4.0"
 
 
 [build-system]
